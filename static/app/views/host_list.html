@@ -12,8 +12,9 @@
   </p>
   <pre>
     wget https://localhost:8080/downloads/ubuntu/moon.tar.gz
-    tar zxf moon.tar.gz
-    cd moon &amp;&amp; bin/moon -key {{user.agentkey}}</pre>
+    sudo tar zxf moon.tar.gz -C /
+    sudo /usr/sbin/moon-config -key {{user.agentkey}}
+    sudo service moon start</pre>
   <div class="text-right">
     <a class="btn btn-default" ng-click="tips.close()">Close</a>
   </div>
