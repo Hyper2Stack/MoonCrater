@@ -10,6 +10,11 @@ app.get('/test', function (req, res) {
   res.send();
 });
 
-app.listen(8080, '0.0.0.0', function () {
-  console.log('MoonCrater is listenning on 0.0.0.0::8080');
+var server_host = process.env.MOON_CRATER_HOST || '0.0.0.0',
+    server_port = process.env.MOON_CRATER_PORT || '8080';
+
+app.listen(parseInt(server_port), server_host, function () {
+  console.log(
+    'MoonCrater is listenning on ' + server_host +'::' + server_port
+  );
 });
