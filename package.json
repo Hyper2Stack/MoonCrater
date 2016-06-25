@@ -1,0 +1,29 @@
+{
+  "name": "mooncrater",
+  "version": "1.0.0",
+  "description": "MoonLegend Web Face",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyper2stack/mooncrater.git"
+  },
+  "author": "R.S.A",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hyper2stack/mooncrater/issues"
+  },
+  "homepage": "https://github.com/hyper2stack/mooncrater#readme.md",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-notify": "^2.2.0"
+  }
+}
