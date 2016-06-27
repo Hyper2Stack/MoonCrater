@@ -1,5 +1,6 @@
 var express = require('express'),
     bodyparser = require('body-parser'),
+    config = require(__dirname + '/craters/config.js'),
     app = express();
 
 app.use(express.static('static'));
@@ -10,10 +11,10 @@ app.get('/test', function (req, res) {
   res.send();
 });
 
-var server_host = process.env.MOON_CRATER_HOST || '0.0.0.0',
-    server_port = process.env.MOON_CRATER_PORT || '8080';
+var server_host = config.server_host,
+    server_port = parseInt(config.server_port);
 
-app.listen(parseInt(server_port), server_host, function () {
+app.listen(server_port, server_host, function () {
   console.log(
     'MoonCrater is listenning on ' + server_host +'::' + server_port
   );
