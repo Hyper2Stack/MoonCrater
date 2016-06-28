@@ -13,34 +13,34 @@ function moonlegend_client (bind) {
     update_tag:  bind.repo_tag_update || _nop
   };
   this.hosts = {
-    search:  bind.host_search,
-    refresh: bind.host_detect,
-    remove:  bind.host_remove,
-    update:  bind.host_update,
-    tags:    bind.host_tag_update,
-    nics:    bind.host_nic_update
+    search:  bind.host_search || _nop,
+    refresh: bind.host_detect || _nop,
+    remove:  bind.host_remove || _nop,
+    update:  bind.host_update || _nop,
+    tags:    bind.host_tag_update || _nop,
+    nics:    bind.host_nic_update || _nop
   };
   this.groups = {
-    search_group: bind.group_search,
-    create_group: bind.group_create,
-    remove_group: bind.group_remove,
-    update_group: bind.group_update,
-    attach_host:  bind.host_attach,
-    detach_host:  bind.host_detach
+    search_group: bind.group_search || _nop,
+    create_group: bind.group_create || _nop,
+    remove_group: bind.group_remove || _nop,
+    update_group: bind.group_update || _nop,
+    attach_host:  bind.host_attach || _nop,
+    detach_host:  bind.host_detach || _nop
   };
   this.deployments = {
-    deploy_bind:    bind.group_repo_bind,
-    deploy_prepare: bind.group_repo_prepare,
-    deploy_act:     bind.group_repo_deploy,
-    deploy_cancel:  bind.group_repo_cancel,
-    deploy_clean:   bind.group_repo_clean
+    deploy_bind:    bind.group_repo_bind || _nop,
+    deploy_prepare: bind.group_repo_prepare || _nop,
+    deploy_act:     bind.group_repo_deploy || _nop,
+    deploy_cancel:  bind.group_repo_cancel || _nop,
+    deploy_clean:   bind.group_repo_clean || _nop
   };
   this.users = {
-    search:         bind.user_search,
-    signup:         bind.user_signup,
-    signin:         bind.user_signin,
-    reset_password: bind.user_password_reset,
-    reset_apikey:   bind.user_apikey_reset
+    search:         bind.user_search || _nop,
+    signup:         bind.user_signup || _nop,
+    signin:         bind.user_signin || _nop,
+    reset_password: bind.user_password_reset || _nop,
+    reset_apikey:   bind.user_apikey_reset || _nop
   };
 }
 
@@ -49,6 +49,13 @@ function virtual_host (meta) {
   this.tags = meta.tags;
   this.nics = meta.nics;
   this.group = null;
+}
+
+function model_user (meta) {
+  this.username = meta.username;
+  this.password = meta.password;
+  this.email = meta.email;
+  this.key = meta.key;
 }
 
 var definitions = {
