@@ -2,6 +2,15 @@
 
 MoonLegend Web Face; Powered By R.S.A :)
 
+### fast run:
+
+```bash
+Install Nginx
+./prepare.sh
+```
+
+### future
+
 Install NodeJS
 
 ```bash
