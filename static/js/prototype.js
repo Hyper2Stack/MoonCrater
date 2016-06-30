@@ -327,6 +327,9 @@ window.MoonLegend.debug.gotoPageRepoDetail = pRepo._refresh;
 
   var mNodes = {}, mGroups = {};
 
+  $(pNodes.dom.btnHelp).click(function (e) {
+    alert('Api Key: ' + user.key);
+  });
   var debugAddNode = $('<a class="btn btn-default">虚拟机器</a>'); // XXX remove
   $(pNodes.dom.btnHelp).parent().append(debugAddNode); // XXX remove
   $(debugAddNode).click(function (e) {
