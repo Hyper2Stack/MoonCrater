@@ -2,10 +2,23 @@
 
 MoonLegend Web Face; Powered By R.S.A :)
 
+### angular front end
+
+```bash
+# install Nginx
+# install nodeJS with NPM
+npm install -g bower
+cd satic/app && bower install
+./prepare.sh
+# run moonlegend at 127.0.0.1:8080
+# run nginx at 127.0.0.1:8081
+# browser visit 127.0.01:8081/app/#/login
+```
+
 ### fast run:
 
 ```bash
-Install Nginx
+# Install Nginx
 ./prepare.sh
 ```
 

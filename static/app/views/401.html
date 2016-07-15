@@ -1,0 +1,14 @@
+<div class="container"><form class="form form-horizon" ng-submit="login.act()">
+  <label>Username</label>
+  <input class="form-control" ng-model="login.username"/>
+  <label>Password</label>
+  <input class="form-control" type="password" ng-model="login.password"/>
+  <div class="text-center">
+    <br />
+    <button class="btn btn-default" type="submit"
+            ladda="login.processing">
+      Login
+    </button>
+    <a class="btn btn-link" ui-sref="register">Register</a>
+  </div>
+</form></div>

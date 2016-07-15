@@ -39,4 +39,13 @@ gulp.task('bower_deploy', function () {
     .pipe(gulp.dest(config.staticDir('/fonts')));
 });
 
+gulp.task('serve', function () {
+  var live = require('gulp-live-server'),
+      server = live.static('static/app', 8888);
+  server.start();
+  gulp.watch(['static/app/**/*.css', 'static/app/**/*.html', 'static/app/**/*.js'], function (file) {
+    server.notify.apply(server, [file]);
+  });
+});
+
 gulp.task('default', ['bower_install', 'bower_deploy']);

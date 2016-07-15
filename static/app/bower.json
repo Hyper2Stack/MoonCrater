@@ -1,0 +1,29 @@
+{
+  "name": "mooncrater",
+  "homepage": "https://github.com/hyper2stack/mooncrater",
+  "description": "",
+  "main": "",
+  "authors": [
+    "R.S.A"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.0.0",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.6.3",
+    "angular": "^1.5.7",
+    "angular-bootstrap": "^1.3.3",
+    "angular-toastr": "^1.7.0",
+    "angular-select2": "^1.5.2",
+    "angular-ui-router": "^0.3.1",
+    "angular-cookie": "^4.1.0",
+    "restangular": "^1.5.2"
+  }
+}

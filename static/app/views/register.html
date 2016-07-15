@@ -1,0 +1,18 @@
+<div class="container"><form class="form form-horizon" ng-submit="register.act()">
+  <label>Username</label>
+  <input class="form-control" ng-model="register.username"/>
+  <label>Password</label>
+  <input class="form-control" type="password" ng-model="register.password"/>
+  <label>Password Confrim</label>
+  <input class="form-control" type="password" ng-model="register.password_confirm"/>
+  <label>Email</label>
+  <input class="form-control" type="email" ng-model="register.email"/>
+  <div class="text-center">
+    <br />
+    <button class="btn btn-success" type="submit"
+            ladda="register.processing">
+      Register
+    </button>
+    <a class="btn btn-default" ui-sref="login">Cancel</a>
+  </div>
+</form></div>
