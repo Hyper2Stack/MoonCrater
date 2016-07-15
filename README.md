@@ -12,7 +12,18 @@ cd satic/app && bower install
 ./prepare.sh
 # run moonlegend at 127.0.0.1:8080
 # run nginx at 127.0.0.1:8081
-# browser visit 127.0.01:8081/app/#/login
+# browser visit 127.0.0.1:8081/#/login
+```
+
+```bash
+# (no nginx)
+# install nodeJS withNPM
+# run moonlegend at 127.0.0.1:8080
+npm install -g bower gulp
+cd static/app && bower install
+cd - && npm install
+gulp serve
+# browser visit 127.0.0.1:8081/#/login
 ```
 
 ### fast run:

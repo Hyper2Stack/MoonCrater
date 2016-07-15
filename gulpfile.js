@@ -40,12 +40,21 @@ gulp.task('bower_deploy', function () {
 });
 
 gulp.task('serve', function () {
-  var live = require('gulp-live-server'),
-      server = live.static('static/app', 8888);
-  server.start();
-  gulp.watch(['static/app/**/*.css', 'static/app/**/*.html', 'static/app/**/*.js'], function (file) {
-    server.notify.apply(server, [file]);
-  });
+  var live = require('gulp-connect'),
+      proxy = require('http-proxy-middleware'),
+      server = live.server({
+        port: 8081,
+        root: ['./static/app'],
+        middleware: function(connect, opt) {
+          return [
+            proxy('/api', {
+              target: 'http://127.0.0.1:8080',
+              changeOrigin: true
+            })
+          ];
+        }
+      });
+  gulp.watch(['static/app/**/*.css', 'static/app/**/*.html', 'static/app/**/*.js']);
 });
 
 gulp.task('default', ['bower_install', 'bower_deploy']);

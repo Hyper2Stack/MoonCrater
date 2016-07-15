@@ -24,8 +24,9 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.13",
-    "gulp-live-server": "0.0.30",
+    "gulp-connect": "^4.1.0",
     "gulp-notify": "^2.2.0",
+    "http-proxy-middleware": "^0.17.0",
     "ws": "^1.1.1"
   }
 }
