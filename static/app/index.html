@@ -5,20 +5,42 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.css" />
 <link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.css" />
 </head>
 <body ng-app="mooncrater">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand">MoonCrater</a>
-    </div>
-    <div class="collapse navbar-collapse">
-      <a class="btn btn-default">User</a>
+      <a class="navbar-brand" ui-sref="home">MoonCrater</a>
     </div>
   </div>
 </nav>
-<div ui-view></div>
+
+<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+  <div class="btn-group-vertical" style="width: 100%;">
+    <a class="btn btn-default" style="text-align: left;" ui-sref="repo">
+      <i class="fa fa-tags"></i> Repositories
+    </a>
+    <a class="btn btn-default" style="text-align: left;" ui-sref="host">
+      <i class="fa fa-television"></i> Hosts
+    </a>
+    <a class="btn btn-default" style="text-align: left;" ui-sref="app">
+      <i class="fa fa-check-circle"></i> Applications
+    </a>
+    <a class="btn btn-default" style="text-align: left;" ui-sref="setting">
+      <i class="fa fa-cog"></i> Settings
+    </a>
+    <a class="btn btn-default" style="text-align: left;">
+      <i class="fa fa-book"></i> About
+    </a>
+    <a class="btn btn-default" style="text-align: left;" ui-sref="debug">
+      <i class="fa fa-beer"></i> Debug
+    </a>
+  </div>
+</div>
+
+<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10" ui-view></div>
 
 <script type="text/javascript" src="bower_components/lodash/dist/lodash.js"></script>
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
@@ -34,5 +56,10 @@
 <script type="text/javascript" src="scripts/controller/debug.js"></script>
 <script type="text/javascript" src="scripts/controller/login.js"></script>
 <script type="text/javascript" src="scripts/controller/register.js"></script>
+<script type="text/javascript" src="scripts/controller/home.js"></script>
+<script type="text/javascript" src="scripts/controller/repository_list.js"></script>
+<script type="text/javascript" src="scripts/controller/host_list.js"></script>
+<script type="text/javascript" src="scripts/controller/application_list.js"></script>
+<script type="text/javascript" src="scripts/controller/global_setting.js"></script>
 </body>
 </html>

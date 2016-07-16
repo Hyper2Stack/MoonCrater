@@ -10,6 +10,26 @@ var app = angular.module(
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/login');
   $stateProvider
+  .state('repo', {
+    url: '/repo',
+    templateUrl: 'views/repository_list.html',
+    controller: 'RepositoryListComponent'
+  })
+  .state('host', {
+    url: '/host',
+    templateUrl: 'views/host_list.html',
+    controller: 'HostListComponent'
+  })
+  .state('app', {
+    url: '/app',
+    templateUrl: 'views/application_list.html',
+    controller: 'ApplicationListComponent'
+  })
+  .state('setting', {
+    url: '/setting',
+    templateUrl: 'views/global_setting.html',
+    controller: 'GlobalSettingComponent'
+  })
   .state('debug', {
     url: '/debug',
     templateUrl: 'views/debug.html',
@@ -17,8 +37,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
   })
   .state('home', {
     url: '/',
-    templateUrl: 'views/debug.html',
-    controller: 'DebugComponent'
+    templateUrl: 'views/home.html',
+    controller: 'HomeComponent'
   })
   .state('e404', {
     url: '/404',

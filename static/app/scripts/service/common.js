@@ -1,13 +1,23 @@
 app.service(
   'common',[
   '$http',
+  '$location',
+  '$state',
   'ipCookie',
-  function ($http, ipCookie) {
+  function ($http, $location, $state, ipCookie) {
     var service = {
       check_logged_in: function () {
         var apikey = ipCookie('apikey');
         $http.defaults.headers.common['Authorization'] = apikey;
         return apikey;
+      },
+      redirect_if_not_logged_in: function () {
+        var apikey = ipCookie('apikey');
+        if (apikey) return false;
+        $state.go('login', {
+          next: $location.$$url
+        });
+        return true;
       },
       logged_in: function (apikey) {
         ipCookie('apikey', apikey);
