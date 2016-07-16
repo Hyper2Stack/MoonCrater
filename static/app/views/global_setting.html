@@ -1,1 +1,22 @@
 <div>Global Settings</div>
+<div class="well well-sm">
+  <h4>User</h4>
+  <div>
+    <label>Api Key</label>
+    <div class="input-group">
+      <input class="form-control" readonly ng-model="apikey.value" />
+      <span class="input-group-btn">
+        <a class="btn btn-default" ladda="apikey.processing" ng-click="apikey.update()">Update</a>
+      </span>
+    </div>
+  </div>
+  <div>
+    <label>Password</label>
+    <div class="input-group">
+      <input class="form-control" ng-model="userpass.value" />
+      <span class="input-group-btn">
+        <a class="btn btn-default" ladda="userpass.processing" ng-click="userpass.update()">Update</a>
+      </span>
+    </div>
+  </div>
+</div>
