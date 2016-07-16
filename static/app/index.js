@@ -46,6 +46,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     controller: function($scope) {
     }
   })
+  .state('about', {
+    url: '/about',
+    templateUrl: 'views/about.html'
+  })
   .state('login', {
     url: '/login?next',
     templateUrl: 'views/401.html',
