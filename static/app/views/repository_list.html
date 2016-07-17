@@ -1,8 +1,26 @@
-<div>Repositories</div>
+<div>
+  Repositories
+  <a class="btn btn-xs btn-success" ng-click="repo_new.open()">+</a>
+</div>
 <div class="well well-sm text-center" ng-if="list.length === 0">
   No repository.
-  Go to <a class="btn btn-success">create</a> one.
+  Go to <a class="btn btn-success" ng-click="repo_new.open()">create</a> one.
 </div>
+
+<div ng-show="repo_new.adding">
+  <label>Name</label>
+  <input class="form-control" ng-model="repo_new.name" />
+  <label>Description</label>
+  <input class="form-control" ng-model="repo_new.description"/>
+  <label>ReadMe</label>
+  <textarea class="form-control" ng-model="repo_new.readme"></textarea>
+  <div class="text-right">
+    <br />
+    <a class="btn btn-success" ladda="repo_new.processing" ng-click="repo_new.create()">Create</a>
+    <a class="btn btn-default" ng-click="repo_new.close()">Cancel</a>
+  </div>
+</div>
+
 <div ng-if="list.length > 0">
   <table class="table table-striped">
     <thead>

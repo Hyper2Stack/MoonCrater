@@ -1,16 +1,19 @@
 <div>
-  <a ui-sref="repo">Repository</a> &gt; <span>{{repository.name}}</span><br/>
+  <a ui-sref="repo">Repositories</a> &gt; <span>{{repository.name}}</span><br/>
 </div>
 <div class="pull-right" ng-if="!loaded">Loading ...</div>
 <div ng-if="loaded">
   <div class="well well-sm">
     <h2>{{repository.raw.name}}</h2>
-    <div>{{repository.raw.description}}</div>
+    <div ng-show="repository.raw.description">{{repository.raw.description}}</div>
   </div>
   <div>
     <ul class="nav nav-tabs">
       <li ng-class="{'active': tab.active === 0}">
-        <a ladda="tab.tags.processing" ng-click="tab.active = 0">Tags</a>
+        <a ladda="tab.tags.processing" ng-click="tab.active = 0">
+          Tags
+          <span class="btn btn-xs btn-success" ng-click="tab.tags.tag_new.open()">+</span>
+        </a>
       </li>
       <li ng-class="{'active': tab.active === 1}">
         <a ng-click="tab.active = 1">ReadMe</a>
@@ -21,16 +24,41 @@
     </ul>
     <br />
     <div class="tab-content">
-      <div ng-if="repository.tag_list.length === 0">
-        No tag. Go to <a class="btn btn-info">create</a> one.
-      </div>
       <div ng-class="{'tab-pane': true, 'active': tab.active === 0}">
+        <div ng-if="repository.tag_list.length === 0">
+          No tag. Go to <a class="btn btn-info" ng-click="tab.tags.tag_new.open()">create</a> one.
+        </div>
+        <div class="panel panel-default" ng-if="tab.tags.adding">
+          <div class="panel-heading">
+            <div class="input-group">
+              <input class="form-control" ng-model="tab.tags.tag_new.name" placeholder="Tag Name" />
+              <span class="input-group-btn">
+                <a class="btn btn-success" ladda="tab.tags.tag_new.processing" ng-click="tab.tags.tag_new.create()">Create</a>
+                <a class="btn btn-default" ng-click="tab.tags.tag_new.close()">Cancel</a>
+              </span>
+            </div>
+          </div>
+          <div ng-class="panel-body">
+            <textarea class="form-control" rows=8 ng-model="tab.tags.tag_new.yml"></textarea>
+          </div>
+        </div>
+
         <div ng-repeat="one in repository.tag_list" class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">
-              <span ng-class="{'glyphicon': true, 'glyphicon-plus': one._ui.fold, 'glyphicon-minus': !one._ui.fold}" ng-click="one._ui.fold = !one._ui.fold"></span>
+              <span ng-class="{'fa': true, 'fa-angle-up': one._ui.fold, 'fa-angle-down': !one._ui.fold}"
+                    ng-click="one._ui.fold = !one._ui.fold"></span>
               {{one.name}}
-          </h3>
+
+              <span class="pull-right btn-group">
+                <a class="btn btn-xs btn-default" ng-click="tab.tags.tag_new.clone(one)">
+                  <i class="fa fa-code-fork"></i>
+                </a>
+                <a class="btn btn-xs btn-danger" ng-click="tab.tags.remove(one)">
+                  <i class="fa fa-times"></i>
+                </a>
+              </span>
+            </h3>
           </div>
           <div ng-class="{'panel-body': true, 'hide': one._ui.fold}">
             <pre>{{one.yml}}</pre>
@@ -38,10 +66,39 @@
         </div>
       </div>
       <div ng-class="{'tab-pane': true, 'active': tab.active === 1}">
-        <pre>{{repository.raw.readme}}</pre>
+        <div ng-hide="tab.readme.editing">
+          <pre ng-show="repository.raw.readme">{{repository.raw.readme}}</pre>
+          <pre ng-show="!repository.raw.readme">(No README)</pre>
+          <div class="text-right">
+            <a class="btn btn-default" ng-click="tab.readme.open()">Edit</a>
+          </div>
+        </div>
+        <div ng-show="tab.readme.editing">
+          <div>
+            <textarea class="form-control" rows=8 ng-model="tab.readme.value"></textarea>
+          </div>
+          <div class="text-right">
+            <br />
+            <a class="btn btn-success" ladda="tab.readme.processing" ng-click="tab.readme.update()">Update</a>
+            <a class="btn btn-default" ng-click="tab.readme.close()">Cancel</a>
+          </div>
+        </div>
       </div>
       <div ng-class="{'tab-pane': true, 'active': tab.active === 2}">
-        Settings
+        <div class="text-right">
+          <a class="btn btn-danger" ng-click="tab.settings.remove()">Delete Repository</a>
+        </div>
+        <br />
+        <div class="well well-sm">
+          <label>Name</label>
+          <input class="form-control" ng-model="tab.settings.update.name"/>
+          <label>Description</label>
+          <input class="form-control" ng-model="tab.settings.update.description"/>
+          <div class="text-right">
+            <br />
+            <a class="btn btn-default" ladda="tab.settings.update.processing" ng-click="tab.settings.update.apply()">Update Repository</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
