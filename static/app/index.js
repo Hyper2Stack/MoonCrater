@@ -15,6 +15,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     templateUrl: 'views/repository_list.html',
     controller: 'RepositoryListComponent'
   })
+  .state('repo_one', {
+    url: '/repo/{id}',
+    templateUrl: 'views/repository.html',
+    controller: 'RepositoryComponent'
+  })
   .state('host', {
     url: '/host',
     templateUrl: 'views/host_list.html',

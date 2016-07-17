@@ -1,5 +1,19 @@
 <div>Repositories</div>
-<div class="well well-sm text-center">
+<div class="well well-sm text-center" ng-if="list.length === 0">
   No repository.
   Go to <a class="btn btn-success">create</a> one.
+</div>
+<div ng-if="list.length > 0">
+  <table class="table table-striped">
+    <thead>
+      <th>Name</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="repo in list">
+        <td><a ui-sref="repo_one({id: repo.id})">{{repo.name}}</a></td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -13,7 +13,10 @@ app.service(
       },
       redirect_if_not_logged_in: function () {
         var apikey = ipCookie('apikey');
-        if (apikey) return false;
+        if (apikey) {
+          $http.defaults.headers.common['Authorization'] = apikey;
+          return false;
+        }
         $state.go('login', {
           next: $location.$$url
         });
