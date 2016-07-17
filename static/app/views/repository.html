@@ -1,4 +1,48 @@
 <div>
-  <a>repo</a><br/>
-  This is a repository, the id is {{id}}
+  <a ui-sref="repo">Repository</a> &gt; <span>{{repository.name}}</span><br/>
+</div>
+<div class="pull-right" ng-if="!loaded">Loading ...</div>
+<div ng-if="loaded">
+  <div class="well well-sm">
+    <h2>{{repository.raw.name}}</h2>
+    <div>{{repository.raw.description}}</div>
+  </div>
+  <div>
+    <ul class="nav nav-tabs">
+      <li ng-class="{'active': tab.active === 0}">
+        <a ladda="tab.tags.processing" ng-click="tab.active = 0">Tags</a>
+      </li>
+      <li ng-class="{'active': tab.active === 1}">
+        <a ng-click="tab.active = 1">ReadMe</a>
+      </li>
+      <li ng-class="{'active': tab.active === 2}">
+        <a ng-click="tab.active = 2">Settings</a>
+      </li>
+    </ul>
+    <br />
+    <div class="tab-content">
+      <div ng-if="repository.tag_list.length === 0">
+        No tag. Go to <a class="btn btn-info">create</a> one.
+      </div>
+      <div ng-class="{'tab-pane': true, 'active': tab.active === 0}">
+        <div ng-repeat="one in repository.tag_list" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <span ng-class="{'glyphicon': true, 'glyphicon-plus': one._ui.fold, 'glyphicon-minus': !one._ui.fold}" ng-click="one._ui.fold = !one._ui.fold"></span>
+              {{one.name}}
+          </h3>
+          </div>
+          <div ng-class="{'panel-body': true, 'hide': one._ui.fold}">
+            <pre>{{one.yml}}</pre>
+          </div>
+        </div>
+      </div>
+      <div ng-class="{'tab-pane': true, 'active': tab.active === 1}">
+        <pre>{{repository.raw.readme}}</pre>
+      </div>
+      <div ng-class="{'tab-pane': true, 'active': tab.active === 2}">
+        Settings
+      </div>
+    </div>
+  </div>
 </div>

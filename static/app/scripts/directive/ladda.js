@@ -10,7 +10,9 @@ app.directive('ladda', ['$interval', function ($interval) {
           span = angular.element('<span>');
       span.addClass('hide');
       $elem.append(span);
-      $scope.$watch(monitor, function (val, old_val) {
+      val_changed($scope.$eval(monitor));
+      $scope.$watch(monitor, val_changed);
+      function val_changed (val, old_val) {
         if (val && (!!val) !== (!!old_val)) {
           if (timer) $interval.cancel(timer);
           $elem.addClass('disabled');
@@ -19,15 +21,15 @@ app.directive('ladda', ['$interval', function ($interval) {
           timer = $interval(function () {
             index ++;
             if (index >= states.length) index = 0;
-            $elem.text(states[index]);
+            span.text(states[index]);
           }, 500);
-        } else {
+        } else if (!val && (!!val) !== (!!old_val)) {
           if (timer) $interval.cancel(timer);
           index = 0;
           $elem.removeClass('disabled');
           span.addClass('hide');
         }
-      });
+      }
     }
   };
 }]);

@@ -16,7 +16,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     controller: 'RepositoryListComponent'
   })
   .state('repo_one', {
-    url: '/repo/{id}',
+    url: '/repo/{name}',
     templateUrl: 'views/repository.html',
     controller: 'RepositoryComponent'
   })
