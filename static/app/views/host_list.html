@@ -1,8 +1,12 @@
-<div>Hosts</div>
-<div class="well well-sm text-center">
-  No host. Go to <a class="btn btn-info">connect</a> one.
+<div>
+  Hosts
+  <span class="btn-group">
+    <a class="btn btn-xs btn-default" ng-click="tips.open()">+</a>
+    <a class="btn btn-xs btn-success" ng-click="tab.refresh()"><i class="fa fa-refresh"></i></a>
+  </span>
 </div>
-<div class="well well-sm">
+<br />
+<div class="well well-sm" ng-show="tips.show">
   <p>
     Download <a href="#">Moon</a> with below commands on a host to connect it to MoonLegend:
   </p>
@@ -10,4 +14,61 @@
     wget https://localhost:8080/downloads/ubuntu/moon.tar.gz
     tar zxf moon.tar.gz
     cd moon &amp;&amp; bin/moon -apikey {{apikey}}</pre>
+  <div class="text-right">
+    <a class="btn btn-default" ng-click="tips.close()">Close</a>
+  </div>
+</div>
+<div class="well well-sm text-center" ng-if="list.length === 0">
+  No host. Go to <a class="btn btn-info" ng-click="tips.open()">connect</a> one.
+</div>
+<div ng-if="list.length > 0">
+  <div ng-repeat="one in list" class="panel panel-default">
+    <div class="panel-heading">
+      <div ng-hide="one._ui.editing">
+        <strong>{{one.name}}</strong>
+        <span class="pull-right btn-group">
+          <a class="btn btn-xs btn-default" ng-click="tab.open_editing(one)">
+            <i class="fa fa-pencil"></i>
+          </a>
+          <a class="btn btn-xs btn-danger" ng-click="tab.remove(one)">
+            <i class="fa fa-times"></i>
+          </a>
+        </span>
+      </div>
+      <div class="input-group" ng-show="one._ui.editing">
+        <input class="form-control" ng-model="one._ui.update.name"/>
+        <span class="input-group-btn">
+          <a class="btn btn-default" ng-click="tab.update(one)">Update</a>
+          <a class="btn btn-default" ng-click="tab.close_editing(one)">Cancel</a>
+        </span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div ng-hide="one._ui.editing">
+        <div ng-if="one.tags.length > 0">
+          <span ng-repeat="tag in one.tags" class="badge">{{tag}} </span>
+        </div>
+        <div ng-if="one.description"><p>{{one.description}}</p></div>
+        <div class="well well-sm" ng-if="one.nics.length > 0">
+          <div ng-repeat="nic in one.nics">
+            <strong>{{nic.name}}/{{nic.ip4addr}}:</strong>
+            <span ng-repeat="tag in nic.tags" class="badge">{{tag}} </span>
+          </div>
+        </div>
+      </div>
+      <div ng-show="one._ui.editing">
+        <label>Description</label>
+        <input class="form-control" ng-model="one._ui.update.description" />
+        <label>Tags</label>
+        <input class="form-control" ng-model="one._ui.update.tags" />
+        <br />
+        <div class="well well-sm">
+          <div ng-repeat="(nic_name, nic_obj) in one._ui.update.nics">
+            <label>{{nic_name}}/{{nic_obj.ip4addr}}</label>
+            <input class="form-control" ng-model="nic_obj.tags"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
