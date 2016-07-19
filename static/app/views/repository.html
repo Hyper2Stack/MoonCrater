@@ -67,8 +67,8 @@
       </div>
       <div ng-class="{'tab-pane': true, 'active': tab.active === 1}">
         <div ng-hide="tab.readme.editing">
-          <pre ng-show="repository.raw.readme">{{repository.raw.readme}}</pre>
-          <pre ng-show="!repository.raw.readme">(No README)</pre>
+          <pre ng-if="repository.raw.readme">{{repository.raw.readme}}</pre>
+          <pre ng-if="!repository.raw.readme">(No README)</pre>
           <div class="text-right">
             <a class="btn btn-default" ng-click="tab.readme.open()">Edit</a>
           </div>
@@ -79,8 +79,10 @@
           </div>
           <div class="text-right">
             <br />
-            <a class="btn btn-success" ladda="tab.readme.processing" ng-click="tab.readme.update()">Update</a>
-            <a class="btn btn-default" ng-click="tab.readme.close()">Cancel</a>
+            <span class="btn-group">
+              <a class="btn btn-success" ladda="tab.readme.processing" ng-click="tab.readme.update()">Update</a>
+              <a class="btn btn-default" ng-click="tab.readme.close()">Cancel</a>
+            </span>
           </div>
         </div>
       </div>
@@ -100,6 +102,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div> <!-- tab-content -->
+  </div> <!-- tab -->
 </div>

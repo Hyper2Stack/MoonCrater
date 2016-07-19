@@ -1,0 +1,133 @@
+<div>
+  <a ui-sref="app">Applications</a> &gt; {{item.name}}
+</div>
+<div class="pull-right" ng-if="item.processing">Loading ...</div>
+<div ng-if="!item.processing">
+  <div class="well well-sm">
+    <h2>{{item.raw.name}}</h2>
+    <div ng-show="item.raw.description">{{item.raw.description}}</div>
+  </div>
+  <div>
+    <ul class="nav nav-tabs">
+      <li ng-class="{'active': tab.active === 0}">
+        <a ladda="tab.deploy.processing" ng-click="tab.active = 0">Deployment</a>
+      </li>
+      <li ng-class="{'active': tab.active === 1}">
+        <a ladda="tab.hosts.processing" ng-click="tab.active = 1">Hosts</a>
+      </li>
+      <li ng-class="{'active': tab.active === 2}">
+        <a ng-click="tab.active = 2">Settings</a>
+      </li>
+    </ul>
+    <br />
+    <div class="tab-content">
+      <div ng-class="{'tab-pane': true, 'active': tab.active === 0}">
+        <div ng-if="item.state === 'raw'">
+          <label>Repository</label>
+          <ui-select ng-model="tab.deploy.phase.raw.selected">
+            <ui-select-match placeholder="Select hosts">{{$select.selected}}</ui-select-match>
+            <ui-select-choices
+                 repeat="one in tab.deploy.phase.raw.all | filter:$select.search">
+              {{one}}
+            </ui-select-choices>
+          </ui-select>
+          <!-- TODO global policy -->
+          <!-- TODO service policy -->
+          <div class="text-right">
+            <br />
+            <a class="btn btn-primary" ladda="tab.deploy.phase.raw.processing" ng-click="tab.deploy.init()">Bind Repository</a>
+          </div>
+        </div> <!-- -->
+        <div ng-if="item.state === 'pre'">
+          <pre ng-if="tab.deploy.raw">Deployment: {{tab.deploy.raw | json}}</pre>
+          <div class="text-right">
+            <br />
+            <a class="btn btn-default"
+               ng-hide="tab.deploy.phase.ing.processing"
+               ladda="tab.deploy.phase.pre.processing"
+               ng-click="tab.deploy.prepare()">Pre-pull Docker Images</a>
+            <a class="btn btn-primary"
+               ladda="tab.deploy.phase.ing.processing"
+               ng-click="tab.deploy.apply()">Deploy</a>
+          </div>
+        </div> <!-- -->
+        <div ng-if="item.state === 'ing'">
+          <pre ng-if="tab.deploy.raw">Deployment: {{tab.deploy.raw | json}}</pre>
+          <pre ng-if="tab.hosts.process">Progress: {{tab.hosts.process | json}}</pre>
+        </div> <!-- -->
+        <div ng-if="item.state === 'post'">
+          <pre ng-if="tab.deploy.raw">Deployment: {{tab.deploy.raw | json}}</pre>
+          <pre ng-if="tab.hosts.process">Progress: {{tab.hosts.process | json}}</pre>
+          <div class="text-right">
+            <br />
+            <a class="btn btn-danger"
+               ladda="tab.deploy.phase.post.processing"
+               ng-click="tab.deploy.clear()">Discard Deployment</a>
+          </div>
+        </div> <!-- -->
+      </div> <!-- tab-deploy -->
+      <div ng-class="{'tab-pane': true, 'active': tab.active === 1}">
+        <div ng-show="tab.hosts.update.editing" ng-if="item.raw.status === 'raw'">
+          <ui-select multiple ng-model="tab.hosts.update.selected">
+            <ui-select-match placeholder="Select hosts">{{$item.name}}</ui-select-match>
+            <ui-select-choices
+                 repeat="one in tab.hosts.update.all | filter:$select.search">
+              {{one.name}}
+            </ui-select-choices>
+          </ui-select>
+          <div class="text-right input-group-btn">
+            <a class="btn btn-default" ladda="tab.hosts.update.processing" ng-click="tab.hosts.update.apply()">Update</a>
+            <a class="btn btn-default" ng-click="tab.hosts.update.close()">Cancel</a>
+          </div>
+        </div>
+        <div ng-hide="tab.hosts.update.editing">
+          <div class="well well-sm" ng-if="tab.hosts.raw.length === 0">(No Host)</div>
+          <div ng-repeat="one in tab.hosts.raw" class="panel panel-default">
+            <div class="panel-heading">
+              <strong>{{one.name}}</strong>
+              <span class="pull-right" ng-if="item.raw.status === 'raw'">
+                <a class="btn btn-xs btn-danger" ng-click="tab.hosts.detach(one.name, $index)">
+                  <i class="fa fa-times"></i>
+                </a>
+              </span>
+            </div>
+            <div class="panel-body">
+                <p ng-if="one.tags.length > 0 || one.description">
+                  <span ng-if="one.tags.length > 0">
+                    <span ng-repeat="tag in one.tags" class="badge">{{tag}} </span>
+                  </span>
+                  <span ng-if="one.description">{{one.description}}</span>
+                  <!-- TODO connect with process to show deploying status -->
+                </p>
+                <div class="well well-sm" ng-if="one.nics.length > 0">
+                  <div ng-repeat="nic in one.nics">
+                    <strong>{{nic.name}}/{{nic.ip4addr}}:</strong>
+                    <span ng-repeat="tag in nic.tags" class="badge">{{tag}} </span>
+                  </div>
+                </div>
+            </div> <!-- panel-body -->
+          </div> <!-- panel -->
+          <div class="text-right" ng-if="item.raw.status === 'raw'">
+            <a class="btn btn-default" ng-click="tab.hosts.update.open()">Edit</a>
+          </div>
+        </div>
+      </div> <!-- tab-hosts -->
+      <div ng-class="{'tab-pane': true, 'active': tab.active === 2}">
+        <div class="text-right">
+          <a class="btn btn-danger" ng-click="tab.settings.remove()">Delete Application</a>
+        </div>
+        <br />
+        <div class="well well-sm">
+          <label>Name</label>
+          <input class="form-control" ng-model="tab.settings.update.name"/>
+          <label>Description</label>
+          <input class="form-control" ng-model="tab.settings.update.description"/>
+          <div class="text-right">
+            <br />
+            <a class="btn btn-default" ladda="tab.settings.update.processing" ng-click="tab.settings.update.apply()">Update Application</a>
+          </div>
+        </div>
+      </div> <!-- tab-settings -->
+    </div> <!-- tab-content -->
+  </div> <!-- tab -->
+</div>

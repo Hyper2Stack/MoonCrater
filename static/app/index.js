@@ -1,9 +1,11 @@
 var app = angular.module(
   'mooncrater', [
+  'ngSanitize',
   'ui.router',
   'ipCookie',
   'restangular',
   'toastr',
+  'ui.select',
   'ui.bootstrap'
 ]);
 
@@ -29,6 +31,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     url: '/app',
     templateUrl: 'views/application_list.html',
     controller: 'ApplicationListComponent'
+  })
+  .state('app_one', {
+    url: '/app/{name}',
+    templateUrl: 'views/application.html',
+    controller: 'ApplicationComponent'
   })
   .state('setting', {
     url: '/setting',

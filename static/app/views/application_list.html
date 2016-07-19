@@ -1,6 +1,37 @@
-<div>Applications</div>
-<div class="well well-sm text-center">
-  No application. Go to
-  <a class="btn btn-default" ui-sref="repo">Repositories</a> or <a class="btn btn-default" ui-sref="host">Hosts</a>
-  to make deployment.
+<div>
+  Applications
+  <a class="btn btn-xs btn-success" ng-click="deploy_new.open()">+</a>
+</div>
+<div class="well well-sm" ng-if="list.length === 0">
+  <br />
+  No application.
+  Go to <a class="btn btn-link" ui-sref="repo">Repositories</a> to define an application,
+  and make sure there is at least one host in <a class="btn btn-link" ui-sref="host">Hosts</a>.
+  Then <a class="btn btn-success" ng-click="deploy_new.open()">start deployment</a>.
+</div>
+
+<div ng-show="deploy_new.adding">
+  <br />
+  <label>New Application</label>
+  <div class="input-group">
+    <input class="form-control" ng-model="deploy_new.name" placeholder="New Application Name"/>
+    <span class="input-group-btn">
+      <a class="btn btn-success" ng-click="deploy_new.create()">Create</a>
+      <a class="btn btn-default" ng-click="deploy_new.close()">Cancel</a>
+    </span>
+  </div>
+</div>
+<div ng-if="list.length > 0">
+  <br />
+  <div ng-repeat="one in list" class="panel panel-default">
+    <div class="panel-body">
+      <div>
+        <a ui-sref="app_one({name: one.name})">
+          <strong>{{one.name}}</strong>
+        </a>
+        <span class="badge">{{one.status}}</span>
+      </div>
+      <div class="well well-sm" ng-if="one.description">{{one.description}}</div>
+    </div>
+  </div>
 </div>

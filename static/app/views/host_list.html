@@ -13,7 +13,7 @@
   <pre>
     wget https://localhost:8080/downloads/ubuntu/moon.tar.gz
     tar zxf moon.tar.gz
-    cd moon &amp;&amp; bin/moon -apikey {{apikey}}</pre>
+    cd moon &amp;&amp; bin/moon -key {{user.agentkey}}</pre>
   <div class="text-right">
     <a class="btn btn-default" ng-click="tips.close()">Close</a>
   </div>
@@ -45,10 +45,12 @@
     </div>
     <div class="panel-body">
       <div ng-hide="one._ui.editing">
-        <div ng-if="one.tags.length > 0">
-          <span ng-repeat="tag in one.tags" class="badge">{{tag}} </span>
-        </div>
-        <div ng-if="one.description"><p>{{one.description}}</p></div>
+        <p ng-if="one.tags.length > 0 || one.description">
+          <span ng-if="one.tags.length > 0">
+            <span ng-repeat="tag in one.tags" class="badge">{{tag}} </span>
+          </span>
+          <span ng-if="one.description">{{one.description}}</span>
+        </p>
         <div class="well well-sm" ng-if="one.nics.length > 0">
           <div ng-repeat="nic in one.nics">
             <strong>{{nic.name}}/{{nic.ip4addr}}:</strong>
@@ -69,6 +71,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div> <!-- panel-body -->
+  </div> <!-- panel -->
 </div>
