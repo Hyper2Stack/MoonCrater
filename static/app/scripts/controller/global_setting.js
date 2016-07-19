@@ -1,21 +1,21 @@
 app.controller(
   'GlobalSettingComponent', [
   '$scope',
+  '$state',
   'toastr',
   'Restangular',
   'common',
-  function ($scope, toastr, api, common) {
+  function ($scope, $state, toastr, api, common) {
     if(common.redirect_if_not_logged_in()) return;
+    $scope.user = common.user;
     $scope.apikey = {
       processing: false,
-      value: common.check_logged_in(),
       update: function () {
         $scope.apikey.processing = true;
         api.all('user').one('reset-key').put({}).then(function () {
           $scope.apikey.processing = false;
           toastr.success('New api key is generated');
-          common.logged_out();
-          common.redirect_if_not_logged_in();
+          $state.reload();
         }, function () {
           $scope.apikey.processing = false;
           toastr.error('Api key update failed.');
