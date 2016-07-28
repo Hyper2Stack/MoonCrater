@@ -143,6 +143,8 @@ app.controller(
       if (host._ui) {
         id = host._ui.id;
       }
+      if (!host.tags) host.tags = [];
+      if (!host.nics) host.nics = [];
       host._ui = {
         id: id,
         editing: false,
