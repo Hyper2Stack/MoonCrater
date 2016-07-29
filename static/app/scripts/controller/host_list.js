@@ -95,7 +95,7 @@ app.controller(
         });
       },
       remove: function (one) {
-        one.delete().then(function () {
+        one.remove().then(function () {
           toastr.success('Host removed.');
           $state.reload();
         }, function () {
