@@ -122,7 +122,7 @@ app.controller(
         },
         prepare: function () {
           $scope.tab.deploy.phase.pre.processing = true;
-          $scope.item.raw.one('prepare').put({}).then(function () {
+          $scope.item.raw.one('deployment').one('prepare').put({}).then(function () {
             $state.reload();
           }, function () {
             toastr.error('Start preparing the deployment failed.');
@@ -130,7 +130,7 @@ app.controller(
         },
         apply: function () {
           $scope.tab.deploy.phase.ing.processing = true;
-          $scope.item.raw.one('deploy').put({}).then(function () {
+          $scope.item.raw.one('deployment').one('deploy').put({}).then(function () {
             $state.reload();
           }, function () {
             toastr.error('Start the deployment failed.');
@@ -138,7 +138,7 @@ app.controller(
         },
         clear: function () {
           $scope.tab.deploy.phase.post.processing = true;
-          $scope.item.raw.one('clear').put({}).then(function () {
+          $scope.item.raw.one('deployment').one('clear').put({}).then(function () {
             $state.reload();
           }, function () {
             toastr.error('Clearing the deployment failed.');
@@ -225,7 +225,7 @@ app.controller(
           api.one('user').one(
             'groups', $scope.item.name
           ).one(
-            'nodes', host.name
+            'nodes', host
           ).remove().then(function () {
             if (callback) {
               callback(host, -1);
