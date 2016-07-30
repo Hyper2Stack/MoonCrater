@@ -130,7 +130,7 @@ app.controller(
         },
         apply: function () {
           $scope.tab.deploy.phase.ing.processing = true;
-          $scope.item.raw.one('deployment').one('deploy').put({}).then(function () {
+          $scope.item.raw.one('deployment').one('execute').put({}).then(function () {
             $state.reload();
           }, function () {
             toastr.error('Start the deployment failed.');
