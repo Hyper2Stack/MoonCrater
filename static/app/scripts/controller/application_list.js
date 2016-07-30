@@ -93,7 +93,7 @@ app.controller(
           }
         },
         edit: {
-          repo: null,
+          repo: null /*,
           runtime: {
             env: [],
             global_policy: {
@@ -101,7 +101,7 @@ app.controller(
               port_mapping: 'fixed'
             },
             service_policy: {}
-          }
+          } */
         },
         raw_compile: function () {
           $scope.tab.deploy.edit.repo = $scope.tab.deploy.phase.raw.selected;
