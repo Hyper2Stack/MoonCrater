@@ -57,4 +57,4 @@ gulp.task('serve', function () {
   gulp.watch(['static/app/**/*.css', 'static/app/**/*.html', 'static/app/**/*.js']);
 });
 
-gulp.task('default', ['bower_install', 'bower_deploy']);
+gulp.task('default', ['serve']);
