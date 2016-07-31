@@ -118,6 +118,7 @@ app.controller(
             $state.reload();
           }, function () {
             toastr.error('Initializing the deployment failed.');
+            $scope.tab.deploy.phase.raw.processing = false;
           });
         },
         prepare: function () {
@@ -126,6 +127,7 @@ app.controller(
             $state.reload();
           }, function () {
             toastr.error('Start preparing the deployment failed.');
+            $scope.tab.deploy.phase.pre.processing = false;
           });
         },
         apply: function () {
@@ -134,6 +136,7 @@ app.controller(
             $state.reload();
           }, function () {
             toastr.error('Start the deployment failed.');
+            $scope.tab.deploy.phase.ing.processing = false;
           });
         },
         clear: function () {
@@ -142,6 +145,7 @@ app.controller(
             $state.reload();
           }, function () {
             toastr.error('Clearing the deployment failed.');
+            $scope.tab.deploy.phase.post.processing = false;
           });
         }
       },
