@@ -62,12 +62,24 @@
         <label>Description</label>
         <input class="form-control" ng-model="one._ui.update.description" />
         <label>Tags</label>
-        <input class="form-control" ng-model="one._ui.update.tags" />
+        <!-- <input class="form-control" ng-model="one._ui.update.tags" /> -->
+        <ui-select multiple ng-model="one._ui.update.tags">
+          <ui-select-match placeholder="Enter tags">{{$item}}</ui-select-match>
+          <ui-select-choices repeat="one in ($select.search?[$select.search]:[])">
+            {{one}}
+          </ui-select-choices>
+        </ui-select>
         <br />
         <div class="well well-sm">
           <div ng-repeat="(nic_name, nic_obj) in one._ui.update.nics">
             <label>{{nic_name}}/{{nic_obj.ip4addr}}</label>
-            <input class="form-control" ng-model="nic_obj.tags"/>
+            <!-- <input class="form-control" ng-model="nic_obj.tags"/> -->
+            <ui-select multiple ng-model="nic_obj.tags">
+              <ui-select-match placeholder="Enter tags">{{$item}}</ui-select-match>
+              <ui-select-choices repeat="one in ($select.search?[$select.search]:[])">
+                {{one}}
+              </ui-select-choices>
+            </ui-select>
           </div>
         </div>
       </div>

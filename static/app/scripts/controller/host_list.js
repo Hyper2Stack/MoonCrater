@@ -36,11 +36,11 @@ app.controller(
         one._ui.update.processing = true;
         one.customPUT(putobj).then(function () {
           one.id = putobj.name;
-          diff = tag_diff(one, one.tags, one._ui.update.tags.split(','));
+          diff = tag_diff(one, one.tags, one._ui.update.tags);
           request_queue("Host tag", diff, 0, 0, function () {
             diff = [];
             one.nics.forEach(function (nic) {
-              diff.push(tag_diff(nic, nic.tags, one._ui.update.nics[nic.name].tags.split(',')));
+              diff.push(tag_diff(nic, nic.tags, one._ui.update.nics[nic.name].tags));
             });
             update_nic(one.nics, diff, 0);
 
@@ -167,14 +167,14 @@ app.controller(
           processing: false,
           name: host.name,
           description: host.description,
-          tags: host.tags.join(','),
+          tags: host.tags,
           nics: {}
         }
       }
       host.nics.forEach(function (nic) {
         host._ui.update.nics[nic.name] = {
           ip4addr: nic.ip4addr,
-          tags: nic.tags.join(',')
+          tags: nic.tags
         };
       });
       host.id = host.name;
