@@ -232,7 +232,7 @@ app.controller(
           api.one('user').one(
             'groups', $scope.item.name
           ).one(
-            'nodes', host
+            'nodes', host.name
           ).remove().then(function () {
             if (callback) {
               callback(host, -1);
