@@ -330,6 +330,9 @@ app.controller(
     api.one('user').one('groups', $scope.item.name).getList('nodes').then(function (raw_list) {
       $scope.tab.hosts.raw = raw_list;
       $scope.tab.hosts.update.selected = raw_list.slice();
+      if (!raw_list.length) {
+        $scope.tab.active = 1;
+      }
       $scope.tab.hosts.processing = false;
     }, function () {
       toastr.error('Loading hosts of the application failed.');
