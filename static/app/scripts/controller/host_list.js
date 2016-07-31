@@ -26,8 +26,6 @@ app.controller(
             tags = one.tags,
             nics = one.nics,
             diff = null,
-            count = 0,
-            fail_count = 0,
             putobj = {
               name: one._ui.update.name,
               description: one._ui.update.description
@@ -38,63 +36,67 @@ app.controller(
         one._ui.update.processing = true;
         one.customPUT(putobj).then(function () {
           one.id = putobj.name;
-          diff = tag_diff(one.tags, one._ui.update.tags.split(','));
-          for (var key in diff) {
-            if (diff[key] > 0) {
-              one.post('tags', {name: key}).then(function () {
-                check_complete();
-              }, function () {
-                fail_count ++;
-              });
-            } else {
-              one.one('tags', key).remove().then(function () {
-                check_complete();
-              }, function () {
-                fail_count ++;
-              });
-            }
-            count ++;
-          }
-          one.nics.forEach(function (nic) {
-            diff = tag_diff(
-              nic.tags,
-              one._ui.update.nics[nic.name].tags.split(',')
-            );
-            for (var key in diff) {
-              if (diff[key] > 0) {
-                one.one('nics', nic.name).post('tags', {name: key}).then(function () {
-                  check_complete();
-                }, function () {
-                  fail_count ++;
-                });
-              } else {
-                one.one('nics', nic.name).one('tags', key).remove().then(function () {
-                  check_complete();
-                }, function () {
-                  fail_count ++;
-                });
+          diff = tag_diff(one, one.tags, one._ui.update.tags.split(','));
+          request_queue("Host tag", diff, 0, 0, function () {
+            diff = [];
+            one.nics.forEach(function (nic) {
+              diff.push(tag_diff(nic, nic.tags, one._ui.update.nics[nic.name].tags.split(',')));
+            });
+            update_nic(one.nics, diff, 0);
+
+            function update_nic (nics, diffs, index) {
+              if (index >= nics.length) {
+                toastr.success('Host updated.');
+                one._ui.update.processing = false;
+                $state.reload();
+                return;
               }
-              count ++;
+              var nic = nics[index],
+                  diff = diffs[index];
+              request_queue(
+                "Host nic tag of '" + nic.name  + "'",
+                diff, 0, 0, function () {
+                  update_nic(nics, diffs, index + 1);
+                }
+              );
             }
           });
-          if (count === 0) {
-            toastr.success('Host updated.');
-            one._ui.update.processing = false;
-            $state.reload();
-          }
 
-          function check_complete() {
-            if (count) count --;
-            if (count - fail_count === 0) {
-              if (fail_count > 0) {
-                toastr.warning('Updating host partially failed.');
+          function request_queue(action_name, queue, index, fail_count, postfn) {
+            if (index >= queue.length) {
+              if (queue.length === 0) {
+              } else if (fail_count === queue.length) {
+                toastr.error(action_name + ' updating failed.');
+              } else if (fail_count > 0) {
+                toastr.warning(action_name + ' updating partially failed.');
               } else {
-                toastr.success('Host updated.');
+                toastr.success(action_name + ' updated.');
               }
-              one._ui.update.processing = false;
-              $state.reload();
+              if (postfn) postfn();
+              return;
+            }
+
+            var req = queue[index];
+            switch(req.op) {
+            case 1:
+              req.item.post('tags', {name: req.tag}).then(function () {
+                request_queue(action_name, queue, index + 1, fail_count, postfn);
+              }, function () {
+                request_queue(action_name, queue, index + 1, fail_count + 1, postfn);
+              });
+              break;
+            case -1:
+              req.item.one('tags', req.tag).remove().then(function () {
+                request_queue(action_name, queue, index + 1, fail_count, postfn);
+              }, function () {
+                request_queue(action_name, queue, index + 1, fail_count + 1, postfn);
+              });
+              break;
+            default:
+              request_queue(action_name, queue, index + 1, fail_count, postfn);
             }
           }
+
         }, function () {
           one._ui.update.processing = false;
           toastr.error('Updating host failed.');
@@ -127,8 +129,8 @@ app.controller(
       toastr.error('Loading host list failed.');
     });
 
-    function tag_diff(old_tags, new_tags) {
-      var diff = {};
+    function tag_diff(item, old_tags, new_tags) {
+      var diff = {}, list = [];
       old_tags.forEach(function (tag) {
         if (!tag) return;
         diff[tag] = -1;
@@ -141,7 +143,14 @@ app.controller(
           diff[tag] = 1;
         }
       });
-      return diff;
+      for (var tag in diff) {
+        list.push({
+          op: diff[tag],
+          tag: tag,
+          item: item
+        });
+      }
+      return list;
     }
 
     function sync_host(host) {
