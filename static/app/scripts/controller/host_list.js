@@ -37,6 +37,7 @@ app.controller(
 
         one._ui.update.processing = true;
         one.customPUT(putobj).then(function () {
+          one.id = putobj.name;
           diff = tag_diff(one.tags, one._ui.update.tags.split(','));
           for (var key in diff) {
             if (diff[key] > 0) {
@@ -76,12 +77,17 @@ app.controller(
               count ++;
             }
           });
+          if (count === 0) {
+            toastr.success('Host updated.');
+            one._ui.update.processing = false;
+            $state.reload();
+          }
 
           function check_complete() {
             if (count) count --;
             if (count - fail_count === 0) {
               if (fail_count > 0) {
-                toastr.warn('Updating host partially failed.');
+                toastr.warning('Updating host partially failed.');
               } else {
                 toastr.success('Host updated.');
               }
