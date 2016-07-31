@@ -189,6 +189,9 @@ app.controller(
               else
                 $scope.tab.hosts.detach(map[key].obj, -1, _update);
             }
+            if (count === 0) {
+              update.processing = false;
+            }
 
             function _update (host_name, op) {
               count --;
